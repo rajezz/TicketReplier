@@ -1,0 +1,20 @@
+.logo {
+  background: url('freshdesk_logo.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 25px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+#ticket-status,
+#requester-name {
+  font-weight: 700;
+  display: inline-block;
+}
+.text-line {
+  margin: 5px 0px;
+  font-weight: 600;
+}
+.btn-default {
+  margin-top: 5px;
+}

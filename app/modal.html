@@ -1,0 +1,48 @@
+  <html>
+  <script src="https://static.freshcloud.io/fdk/2.0/assets/fresh_client.js"></script>
+  <script src='https://code.jquery.com/jquery-1.9.1.min.js'></script>
+  <script src="app.js"></script>
+  <script>
+    window.frsh_init().then(function (client) {
+      window.client = client;
+      // sample code for DataApi
+      client.data.get('contact')
+        .then(
+          function (data) {
+            document.getElementById('reply-to').innerHTML = 'Reply to ' + data.contact.name;
+            console.log('Child:DataApi', data);
+          },
+          function (error) {
+            console.log('Child:DataApi', error);
+          }
+        );
+    });
+    function SubmitReplyForm() {
+      var reply_text = $('#reply-text').val();
+      if (reply_text != null && reply_text != undefined && reply_text != '') {
+        client.instance.send({
+          message: {
+            reply_text: reply_text,
+          }
+        });
+        client.instance.close();
+      } else {
+        document.getElementById('text-empty').style.display = 'block';
+      }
+    }
+    $('#reply-text').on('change', (e) => {
+      document.getElementById('text-empty').style.display = 'none';
+    });
+  </script>
+  <link rel='stylesheet' type='text/css' href='modal.css' />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="https://static.freshdev.io/fdk/2.0/assets/freshdesk.css">
+
+  <body id="modal-panel">
+    <div id="reply-to"></div>
+    <textarea id='reply-text' placeholder='Text to reply....'></textarea>
+    <small id="text-empty" class="form-text">Please enter text to be replied.</small>
+    <button class="btn btn-default btn-xs submit-btn" onclick="SubmitReplyForm()">Submit</button>
+  </body>
+
+  </html>
