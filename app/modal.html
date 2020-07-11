@@ -5,34 +5,50 @@
   <script>
     window.frsh_init().then(function (client) {
       window.client = client;
-      // sample code for DataApi
-      client.data.get('contact')
-        .then(
-          function (data) {
-            document.getElementById('reply-to').innerHTML = 'Reply to ' + data.contact.name;
-            console.log('Child:DataApi', data);
-          },
-          function (error) {
-            console.log('Child:DataApi', error);
-          }
-        );
+
+      //get Ticket Requester name
+      client.data.get('contact').then(function (data) {
+
+          document.getElementById('reply-to').innerHTML = 'Reply to ' + data.contact.name;
+
+        },
+        function (error) {
+
+          console.log('Error occurred ', error);
+        });
     });
+    $(document).ready(function () {
+
+      document.getElementById('reply-text').addEventListener('change', (e) => {
+
+        document.getElementById('text-empty').style.display = 'none';
+
+      });
+    });
+
     function SubmitReplyForm() {
+
       var reply_text = $('#reply-text').val();
+
+      //validate whether input field is empty or not
+      //if empty display error message else close modal and call reply ticket api
       if (reply_text != null && reply_text != undefined && reply_text != '') {
-        client.instance.send({
+
+        window.client.instance.send({
           message: {
             reply_text: reply_text,
           }
         });
-        client.instance.close();
+
+        //close the modal
+        window.client.instance.close();
+
       } else {
+
         document.getElementById('text-empty').style.display = 'block';
+
       }
     }
-    $('#reply-text').on('change', (e) => {
-      document.getElementById('text-empty').style.display = 'none';
-    });
   </script>
   <link rel='stylesheet' type='text/css' href='modal.css' />
   <link rel="stylesheet" type="text/css" href="style.css">
